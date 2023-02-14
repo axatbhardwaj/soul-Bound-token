@@ -76,8 +76,8 @@ contract MembershipNFT {
 
     constructor() {
         _uri = "https://github.com/axatbhardwaj";
-        _symbol = "VD-MNFT";
-        _name = "VOTING DAO MEMBERSHIP";
+        _symbol = "SYM";
+        _name = "NAME";
     }
 
     uint256 private _tokenCount;
@@ -89,18 +89,21 @@ contract MembershipNFT {
     mapping(address => uint256) private ownerShip;
     mapping(uint256 => address) private ownerShipByTokenId;
 
-    function mint() public {
+    // function which provides/mints SBT to caller
+    function getMembership() public {
         if (ownerShip[msg.sender] >= 1) revert alreadyMember();
         _tokenCount = _tokenCount + 1;
-        ownerShip[msg.sender] = _tokenCount;
+        ownerShip[msg.sender] = _tokenCount; //mint
 
         emit Transfer(address(this), msg.sender, _tokenCount);
     }
 
+    //function return tokenId by owner not the Balance
     function balanceOf(address _owner) public view virtual returns (uint256) {
         return ownerShip[_owner];
     }
 
+    // function to return owner by tokenID
     function ownerOf(uint256 _tokenId) public view virtual returns (address) {
         return ownerShipByTokenId[_tokenId];
     }
@@ -160,6 +163,7 @@ contract MembershipNFT {
         return false;
     }
 
+    // Function returns tokenuri variable as it is common for all tokens
     function tokenURI(uint256 _tokenId)
         public
         view
@@ -170,6 +174,7 @@ contract MembershipNFT {
         return _uri;
     }
 
+    // Function returns symbol
     function symbol() external view returns (string memory) {
         return _symbol;
     }
@@ -178,6 +183,7 @@ contract MembershipNFT {
         return _tokenCount;
     }
 
+    // Function returns name of token
     function name() external view returns (string memory) {
         return _name;
     }
